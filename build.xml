@@ -1,7 +1,16 @@
-<project default="compile">
+<project default="all" basedir="." xmlns:sonar="antlib:org.sonar.ant">
 <property name="src.java.dir" location="./src/CalcPackage"/>
 <property name="result.dir" location="./target"/>
 <property name="result.javaclasses.dir" location="${result.dir}/classes"/>
+<property name="sonar.jdbc.username" value="sonar" />
+<property name="sonar.jdbc.password" value="sonar" />
+<property name="sonar.host.url" value="http://localhost:9000/projects" />	
+	<property name="sonar.projectKey" value="org.sonarqube-scanner-ant" />
+	<property name="sonar.projectName" value="Example of SonarQube Scanner for Ant Usage" />
+	<property name="sonar.projectVersion" value="1.0" />
+	<property name="sonar.jdbc.language" value="java" />
+	<property name="sonar.sources" value="./src/CalcPackage" />
+	<property name="sonar.java.binaries" value="./target" />	
 <path id="MyLibraries">
 <pathelement location="./Libraries/junit-4.12.jar"/>
 
@@ -34,4 +43,12 @@ includeantruntime="false">
 </batchtest>
 </junit>
 </target>
+<target name="sonar" depends="compile">
+<taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
+	<classpath path="C:/sonarqube-7.0/lib/scanner/sonar-scanner-engine-shaded-7.0.jar"/>
+	</taskdef>
+	<sonar:sonar/>
+	</target>
+	<target name="all" depends="compile,test,sonar"></target>
+	
 </project>
